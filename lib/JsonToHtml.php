@@ -14,21 +14,28 @@ class JsonToHtml {
 	}
 
 	private function parse($file) {
-		$file = (gettype($file) !== 'string')
-			? json_decode($this->get_file()) : $file;
+		$file = (gettype($file) !== 'object' && gettype($file) !== 'array')
+			? json_decode($file) : $file;
 
 		foreach ($file as $balise => $value) {
-			if(gettype($value) === 'object') {
-				$this->parse($value);
-			}
-			else {
-				var_dump(gettype($value));
+			switch (gettype($value)) {
+				case 'object':
+					$this->parse($value);
+					break;
+				case 'array':
+					$this->parse($value);
+					break;
+				case 'string':
+					var_dump("<{$balise}>{$value}</{$balise}>");
+					break;
+				default:
+					break;
 			}
 		}
 	}
 
 	public function write() {
-		$this->parse($this->file);
+		$this->parse($this->get_file());
 		file_put_contents('www/'.$this->name.'.html', $this->get_file());
 	}
 }
