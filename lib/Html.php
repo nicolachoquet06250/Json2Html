@@ -128,7 +128,7 @@ class Html {
 	}
 
 	static function title($title) {
-		return '<'.__FUNCTION__.">{$title}</".__FUNCTION__.'>';
+		return '<'.__FUNCTION__.">{$title}</".__FUNCTION__.'>'."\n";
 	}
 
 	static function style($object) {
