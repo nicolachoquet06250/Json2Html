@@ -2,15 +2,24 @@
 
 class JsonToHtml {
 
-	private $file, $name;
+	private $file, $name, $nohtml, $content;
 
 	public function __construct($name) {
 		$this->name = $name;
 		$this->file = new JsonFile($name);
+		$this->nohtml = (isset(json_decode($this->file->get())->nohtml))
+			? json_decode($this->file->get())->nohtml : new stdClass();
+		if (isset(json_decode($this->file->get())->nohtml)) :
+			$content = json_decode($this->file->get());
+			unset($content->nohtml);
+			$this->content = json_encode($content);
+		else:
+			$this->content = $this->file->get();
+		endif;
 	}
 
 	private function get_file() {
-		return $this->file->get();
+		return $this->content;
 	}
 
 	private function parse($file) {
@@ -20,8 +29,8 @@ class JsonToHtml {
 		$content = '';
 
 		foreach ($file as $balise => $value) {
-			if(($method = Html::is_balise($balise))) {
-				$content .= Html::$method($value);
+			if(($method = (new Html())->is_balise($balise))) {
+				$content .= (new Html())->$method($value);
 			}
 		}
 
@@ -29,7 +38,8 @@ class JsonToHtml {
 	}
 
 	public function write() {
-		$this->parse($this->get_file());
-		file_put_contents('www/'.$this->name.'.html', $this->parse($this->get_file()));
+		if(!(isset($this->nohtml->htmlpage) && !$this->nohtml->htmlpage)) {
+			file_put_contents('www/'.$this->name.'.html', $this->parse($this->get_file()));
+		}
 	}
 }

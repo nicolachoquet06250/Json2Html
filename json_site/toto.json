@@ -39,6 +39,7 @@
         },
         "html": "Voici mon premier paragraphe avec la classe `toto` !"
       },
+      "br": 2,
       "a": {
         "attr": {
           "href": "index.html"

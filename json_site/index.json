@@ -1,4 +1,7 @@
 {
+  "nohtml": {
+    "head": "toto"
+  },
   "Doctype": "html",
   "html": {
     "head": {
@@ -22,7 +25,7 @@
       ],
       "style": {
         "body .toto": {
-          "color": "black"
+          "color": "purple"
         }
       }
     },
@@ -39,6 +42,7 @@
         },
         "html": "Voici mon premier paragraphe avec la classe `toto` !"
       },
+      "br": 2,
       "a": {
         "attr": {
           "href": "toto.html"
