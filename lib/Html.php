@@ -1,6 +1,6 @@
 <?php
 
-class Html {
+class Html extends Balised {
 
 	public function __call($name, $arguments) {
 		if($this->is_balise($name)) {
@@ -35,44 +35,6 @@ class Html {
 		return '<!'.__FUNCTION__." {$type}>";
 	}
 
-	private function body($array) {
-		$body = "\n<body>\n";
-		foreach ($array as $balise => $value) {
-			if(($method = $this->is_balise($balise))) {
-				$body.= $this->$method($value);
-			}
-		}
-		$body .= "\n</body>";
-
-		return $body;
-	}
-
-	private function metas($metas) {
-		$metas_str = '';
-
-		foreach ($metas as $meta) {
-			$metas_str .= (isset($meta->charset))
-				? "\n<meta charset='{$meta->charset}' />"
-					: "\n<meta name='{$meta->name}' content='{$meta->content}' />";
-		}
-		$metas_str .= "\n";
-
-		return $metas_str;
-	}
-
-	private function links($links) {
-		$links_str = '';
-
-		foreach ($links as $link) {
-			$links_str .= (isset($link->type))
-				? "<link type='{$link->type}' rel='{$link->rel}' 
-	href='{$link->href}' />\n"
-				: "";
-		}
-
-		return $links_str;
-	}
-
 	private function _html($array) {
 		$html = "\n<html>\n";
 		foreach ($array as $balise => $value) {
@@ -97,6 +59,32 @@ class Html {
 		return $head;
 	}
 
+	private function metas($metas) {
+		$metas_str = '';
+
+		foreach ($metas as $meta) {
+			$metas_str .= (isset($meta->charset))
+				? "\n<meta charset='{$meta->charset}' />"
+				: "\n<meta name='{$meta->name}' content='{$meta->content}' />";
+		}
+		$metas_str .= "\n";
+
+		return $metas_str;
+	}
+
+	private function links($links) {
+		$links_str = '';
+
+		foreach ($links as $link) {
+			$links_str .= (isset($link->type))
+				? "<link type='{$link->type}' rel='{$link->rel}' 
+	href='{$link->href}' />\n"
+				: "";
+		}
+
+		return $links_str;
+	}
+
 	private function title($title) {
 		return '<'.__FUNCTION__.">{$title}</".__FUNCTION__.'>'."\n";
 	}
@@ -112,6 +100,18 @@ class Html {
 		}
 		$style_str .= "</style>";
 		return $style_str;
+	}
+
+	private function body($array) {
+		$body = "\n<body>\n";
+		foreach ($array as $balise => $value) {
+			if(($method = $this->is_balise($balise))) {
+				$body.= $this->$method($value);
+			}
+		}
+		$body .= "\n</body>";
+
+		return $body;
 	}
 
 	private function p($value) {
@@ -160,6 +160,10 @@ class Html {
 		return $a;
 	}
 
+	private function b($value) {
+		return '<'.__FUNCTION__.">{$value}</".__FUNCTION__.'>';
+	}
+
 	private function br($nbr) {
 		$brs = '';
 		for($i=0, $max=(int)$nbr; $i<$max; $i++) {
@@ -167,6 +171,30 @@ class Html {
 		}
 		$brs .= "\n";
 		return $brs;
+	}
+
+	private function img($value) {
+		$attrs = '';
+		if(isset($value->attr) && count($value->attr) > 0) {
+			foreach ($value->attr as $attr => $valeur) {
+				$attrs .= $attr."='";
+				if(gettype($valeur) === 'array' || gettype($valeur) === 'object') {
+					$valeur = (gettype($valeur) === 'object') ? get_object_vars($valeur) : $valeur;
+					foreach ($valeur as $cle => $val) {
+						if (gettype($cle) === 'string') {
+							$attrs .= $cle.':'.$val.'; ';
+						} else {
+							$attrs .= $val.' ';
+						}
+					}
+				}
+				else {
+					$attrs .= $valeur;
+				}
+				$attrs .= "' ";
+			}
+		}
+		return $this->balise(__FUNCTION__, '', $attrs,true);
 	}
 
 }

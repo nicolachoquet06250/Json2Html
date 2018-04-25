@@ -48,6 +48,16 @@
           "href": "toto.html"
         },
         "html": "lien"
+      },
+      "img": {
+        "attr": {
+          "src": "http://medias.doctissimo.fr/css/2012/images/logo_head_doctissimo.png",
+          "alt": "test",
+          "style": {
+            "background": "blue"
+          }
+        },
+        "html": ""
       }
     }
   }
