@@ -11,8 +11,16 @@ function __autoload($class) {
 	else throw new Exception("class {$class} not found !");
 }
 
-$index = new JsonToHtml('index');
-$index->write();
+$dir = opendir('json_site');
+
+while (($file = readdir($dir)) !== false) {
+	if($file !== '.' && $file !== '..') {
+		$file_name = explode('.', $file)[0];
+		$converted = new JsonToHtml($file_name);
+		$converted->write();
+	}
+}
+
 
 // aller voir les pages :
 //  - http://www.41mag.fr/demo/41mag-memo-html5.pdf
