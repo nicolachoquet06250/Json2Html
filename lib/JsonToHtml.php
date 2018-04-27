@@ -9,12 +9,11 @@ class JsonToHtml {
 		$this->file = new JsonFile($name);
 		$this->nohtml = (isset(json_decode($this->file->get())->nohtml))
 			? json_decode($this->file->get())->nohtml : new stdClass();
-		if (isset(json_decode($this->file->get())->nohtml)) :
-			$content = json_decode($this->file->get());
-			unset($content->nohtml);
-			$this->content = json_encode($content);
+        $content = json_decode($this->file->get());
+		if (isset($content->html)) :
+			$this->content = json_encode($content->html);
 		else:
-			$this->content = $this->file->get();
+			$this->content = json_encode($content);
 		endif;
 	}
 
