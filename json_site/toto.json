@@ -1,51 +1,81 @@
 {
-  "Doctype": "html",
   "html": {
-    "head": {
-      "metas": [
-        {
-          "name": "Description",
-          "content": "Voila une jolie description"
-        },
-        {
-          "charset": "utf-8"
-        }
-      ],
-      "title": "ma premiere page HTML en Json",
-
-      "links": [
-        {
-          "type": "text/css",
-          "rel": "stylesheet",
-          "href": "http://images.doctissimo.fr/generated/forum/compressed/pictures.css?v=1523521923"
-        }
-      ],
-      "style": {
-        "body .toto": {
-          "color": "black"
-        }
-      }
+    "Doctype": {
+      "_": "html"
     },
-    "body": {
-      "comment": [
-        "voici un commentaire",
-        "sur plusieurs lignes"
-      ],
-      "p": {
-        "attr": {
-          "class": [
-            "toto"
+    "html": {
+      "head": {
+        "_": {
+          "metas": [
+            {
+              "name": "Description",
+              "content": "Voila une jolie description"
+            },
+            {
+              "charset": "utf-8"
+            }
+          ],
+          "title": {"_": "ma premiere page HTML en Json"},
+          "links": [
+            {
+              "type": "text/css",
+              "rel": "stylesheet",
+              "href": "http://images.doctissimo.fr/generated/forum/compressed/pictures.css?v=1523521923"
+            }
+          ],
+          "style": {
+            "body .toto": {
+              "color": "purple"
+            }
+          }
+        }
+      },
+      "body": [
+        {
+          "name": "comment",
+          "content": [
+            "voici un commentaire",
+            "sur plusieurs lignes"
           ]
         },
-        "html": "Voici mon premier paragraphe avec la classe `toto` !"
-      },
-      "br": 2,
-      "a": {
-        "attr": {
-          "href": "index.html"
+        {
+          "name": "p",
+          "content": {
+            "attr": {
+              "class": [
+                "toto"
+              ]
+            },
+            "_": "Voici mon premier paragraphe avec la classe `toto` !"
+          }
         },
-        "html": "lien"
-      }
+        {
+          "name": "br",
+          "nbr": 2
+        },
+        {
+          "name": "a",
+          "content": {
+            "attr": {
+              "href": "index.html"
+            },
+            "_": "lien"
+          }
+        },
+        {
+          "name": "img",
+          "content": {
+            "attr": {
+              "src": "http://medias.doctissimo.fr/css/2012/images/logo_head_doctissimo.png",
+              "alt": "test",
+              "style": {
+                "background": "blue"
+              }
+            },
+            "_": ""
+          }
+        }
+      ]
     }
   }
 }

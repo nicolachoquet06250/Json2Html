@@ -17,6 +17,7 @@ class Html extends Balised {
 	}
 
 	private function comment($string_or_array) {
+	    new var_dump($string_or_array);
 		$comment = "\n".'<!-- '."\n";
 		if(gettype($string_or_array) === 'array') {
 			foreach ($string_or_array as $string) {
@@ -32,7 +33,7 @@ class Html extends Balised {
 	}
 
 	private function Doctype($type) {
-		return '<!'.__FUNCTION__." {$type}>";
+		return '<!'.__FUNCTION__." {$type->_}>";
 	}
 
 	private function _html($array) {
@@ -49,6 +50,7 @@ class Html extends Balised {
 
 	private function head($array) {
 		$head = "\n<head>\n";
+		$array = isset($array->_) ? get_object_vars($array->_) : $array;
 		foreach ($array as $balise => $value) {
 			if(($method = $this->is_balise($balise))) {
 				$head.= $this->$method($value);
@@ -86,7 +88,7 @@ class Html extends Balised {
 	}
 
 	private function title($title) {
-		return '<'.__FUNCTION__.">{$title}</".__FUNCTION__.'>'."\n";
+		return '<'.__FUNCTION__.">{$title->_}</".__FUNCTION__.'>'."\n";
 	}
 
 	private function style($object) {
@@ -104,9 +106,12 @@ class Html extends Balised {
 
 	private function body($array) {
 		$body = "\n<body>\n";
-		foreach ($array as $balise => $value) {
-			if(($method = $this->is_balise($balise))) {
-				$body.= $this->$method($value);
+		foreach ($array as $balise) {
+            new var_dump($balise->name);
+			if(($method = $this->is_balise($balise->name))) {
+			    $body.= ($method === 'br')
+                    ? $this->$method($balise->nbr)
+                        : $this->$method($balise->content);
 			}
 		}
 		$body .= "\n</body>";
@@ -130,7 +135,7 @@ class Html extends Balised {
 				$p .= "' ";
 			}
 		}
-		$p .= ">{$value->html}</".__FUNCTION__.'>';
+		$p .= ">{$value->_}</".__FUNCTION__.'>';
 
 		return $p;
 	}
@@ -155,7 +160,7 @@ class Html extends Balised {
 				$a .= "' ";
 			}
 		}
-		$a .= ">{$value->html}</".__FUNCTION__.'>';
+		$a .= ">{$value->_}</".__FUNCTION__.'>';
 
 		return $a;
 	}

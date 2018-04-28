@@ -26,7 +26,6 @@ class JsonToHtml {
 			? json_decode($file) : $file;
 
 		$content = '';
-
 		foreach ($file as $balise => $value) {
 			if(($method = (new Html())->is_balise($balise))) {
 				$content .= (new Html())->$method($value);
