@@ -10,6 +10,7 @@ class Balised {
 		if($attrs) {
 			$balise .= " {$attrs}";
 		}
+		$value = htmlspecialchars($value);
 		$balise .= $autoclosed ? "{$value} />" : ">{$value}</{$name}>";
 
 		return $balise;

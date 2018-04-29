@@ -1,0 +1,153 @@
+{
+  "nohtml": {
+    "head": "toto"
+  },
+  "html": {
+    "Doctype": {
+      "_": "html"
+    },
+    "html": {
+      "head": {
+        "_": {
+          "metas": [
+            {
+              "name": "Description",
+              "content": "Documentation de la librarie Json2Html"
+            },
+            {
+              "charset": "utf-8"
+            }
+          ],
+          "title": {
+            "_": "Documentation de la librarie"
+          }
+        }
+      },
+      "body": [
+        {
+          "name": "p",
+          "content": {
+            "_": "Les balises supprotées sont :"
+          }
+        },
+        {
+          "name": "div",
+          "content": {
+            "_": [
+              {
+                "name": "span",
+                "content": {
+                  "_": " - <!-- ... -->"
+                }
+              },
+              {
+                "name": "br",
+                "nbr": 1
+              },
+              {
+                "name": "span",
+                "content": {
+                  "_": " - <meta />"
+                }
+              },
+              {
+                "name": "br",
+                "nbr": 1
+              },
+              {
+                "name": "span",
+                "content": {
+                  "_": " - <link />"
+                }
+              },
+              {
+                "name": "br",
+                "nbr": 1
+              },
+              {
+                "name": "span",
+                "content": {
+                  "_": " - <script></script>"
+                }
+              },
+              {
+                "name": "br",
+                "nbr": 1
+              },
+              {
+                "name": "span",
+                "content": {
+                  "_": " - <style></style>"
+                }
+              },
+              {
+                "name": "br",
+                "nbr": 1
+              },
+              {
+                "name": "span",
+                "content": {
+                  "_": " - <div></div>"
+                }
+              },
+              {
+                "name": "br",
+                "nbr": 1
+              },
+              {
+                "name": "span",
+                "content": {
+                  "_": " - <p></p>"
+                }
+              },
+              {
+                "name": "br",
+                "nbr": 1
+              },
+              {
+                "name": "span",
+                "content": {
+                  "_": " - <a></a>"
+                }
+              },
+              {
+                "name": "br",
+                "nbr": 1
+              },
+              {
+                "name": "span",
+                "content": {
+                  "_": " - <b></b>"
+                }
+              },
+              {
+                "name": "br",
+                "nbr": 1
+              },
+              {
+                "name": "span",
+                "content": {
+                  "_": " - <br />"
+                }
+              },
+              {
+                "name": "br",
+                "nbr": 1
+              },
+              {
+                "name": "span",
+                "content": {
+                  "_": " - <img />"
+                }
+              },
+              {
+                "name": "br",
+                "nbr": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

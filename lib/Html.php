@@ -147,7 +147,7 @@ class Html extends Balised {
 	}
 
 	private function div($content) {
-	    function parse_array($array, Html $self) {
+	    $parse_array = function($array, Html $self) {
 	        $str = '';
             foreach ($array as $balise) {
                 if(($method = $self->is_balise($balise->name))) {
@@ -157,10 +157,10 @@ class Html extends Balised {
                 }
             }
 	        return $str;
-        }
+        };
 	    $div = "\n<".__FUNCTION__.">\n";
 	    $div .= "\t".(gettype($content->_) === 'array'
-            ? parse_array($content->_, $this) : "<span>{$content->_}</span>")."\n";
+            ? $parse_array($content->_, $this) : "<span>{$content->_}</span>")."\n";
 	    $div .= '</'.__FUNCTION__.">\n";
 	    return $div;
     }

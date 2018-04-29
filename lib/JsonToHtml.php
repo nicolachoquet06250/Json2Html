@@ -35,9 +35,15 @@ class JsonToHtml {
 		return $content;
 	}
 
-	public function write() {
+    /**
+     * @throws Exception
+     */
+    public function write() {
 		if(!(isset($this->nohtml->htmlpage) && !$this->nohtml->htmlpage)) {
-			file_put_contents('www/'.$this->name.'.html', $this->parse($this->get_file()));
+		    file_put_contents('www/'.$this->name.'.html', $this->parse($this->get_file()));
+		    if(!is_file('www/'.$this->name.'.html')) {
+                throw new Exception('Une erreur s\'est produite lors de la création du fichier !');
+            }
 		}
 	}
 }
