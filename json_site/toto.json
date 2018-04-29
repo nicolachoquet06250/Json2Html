@@ -63,6 +63,10 @@
           }
         },
         {
+          "name": "br",
+          "nbr": 1
+        },
+        {
           "name": "img",
           "content": {
             "attr": {

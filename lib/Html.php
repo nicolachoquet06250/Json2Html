@@ -17,7 +17,6 @@ class Html extends Balised {
 	}
 
 	private function comment($string_or_array) {
-	    new var_dump($string_or_array);
 		$comment = "\n".'<!-- '."\n";
 		if(gettype($string_or_array) === 'array') {
 			foreach ($string_or_array as $string) {
@@ -65,9 +64,15 @@ class Html extends Balised {
 		$metas_str = '';
 
 		foreach ($metas as $meta) {
-			$metas_str .= (isset($meta->charset))
-				? "\n<meta charset='{$meta->charset}' />"
-				: "\n<meta name='{$meta->name}' content='{$meta->content}' />";
+		    $attrs = $this->attrs($meta, function ($attrs) {
+		        $str = '';
+                foreach ($attrs as $attr => $valeur) {
+                    $str .= "{$attr}=\"{$valeur}\" ";
+		        }
+		        return $str;
+            });
+
+			$metas_str .= "\n{$this->balise('meta', '', $attrs, true)}";
 		}
 		$metas_str .= "\n";
 
@@ -78,17 +83,40 @@ class Html extends Balised {
 		$links_str = '';
 
 		foreach ($links as $link) {
-			$links_str .= (isset($link->type))
-				? "<link type='{$link->type}' rel='{$link->rel}' 
-	href='{$link->href}' />\n"
-				: "";
+            $attrs = $this->attrs($link, function ($attrs) {
+                $str = '';
+                foreach ($attrs as $attr => $valeur) {
+                    $str .= "{$attr}=\"{$valeur}\" ";
+                }
+                return $str;
+            });
+
+            $links_str .= "{$this->balise('link', '', $attrs, true)}\n";
 		}
 
 		return $links_str;
 	}
 
+    private function scripts($links) {
+        $scripts_str = '';
+
+        foreach ($links as $link) {
+            $attrs = $this->attrs($link, function ($attrs) {
+                $str = '';
+                foreach ($attrs as $attr => $valeur) {
+                    $str .= "{$attr}=\"{$valeur}\" ";
+                }
+                return $str;
+            });
+
+            $scripts_str .= "{$this->balise('script', '', $attrs)}\n";
+        }
+
+        return $scripts_str;
+    }
+
 	private function title($title) {
-		return '<'.__FUNCTION__.">{$title->_}</".__FUNCTION__.'>'."\n";
+        return $this->balise(__FUNCTION__, $title->_)."\n";
 	}
 
 	private function style($object) {
@@ -107,7 +135,6 @@ class Html extends Balised {
 	private function body($array) {
 		$body = "\n<body>\n";
 		foreach ($array as $balise) {
-            new var_dump($balise->name);
 			if(($method = $this->is_balise($balise->name))) {
 			    $body.= ($method === 'br')
                     ? $this->$method($balise->nbr)
@@ -119,87 +146,62 @@ class Html extends Balised {
 		return $body;
 	}
 
-	private function p($value) {
-		$p = '<'.__FUNCTION__.' ';
-		if(isset($value->attr) && count($value->attr) > 0) {
-			foreach ($value->attr as $attr => $valeur) {
-				$p .= $attr."='";
-				foreach ($valeur as $cle => $val) {
-					if(gettype($cle) === 'string') {
-						$p .= $cle.':'.$val.'; ';
-					}
-					else {
-						$p .= $val.' ';
-					}
-				}
-				$p .= "' ";
-			}
-		}
-		$p .= ">{$value->_}</".__FUNCTION__.'>';
+	private function div($content) {
+	    function parse_array($array, Html $self) {
+	        $str = '';
+            foreach ($array as $balise) {
+                if(($method = $self->is_balise($balise->name))) {
+                    $str.= ($method === 'br')
+                        ? $self->$method($balise->nbr)
+                        : $self->$method($balise->content);
+                }
+            }
+	        return $str;
+        }
+	    $div = "\n<".__FUNCTION__.">\n";
+	    $div .= "\t".(gettype($content->_) === 'array'
+            ? parse_array($content->_, $this) : "<span>{$content->_}</span>")."\n";
+	    $div .= '</'.__FUNCTION__.">\n";
+	    return $div;
+    }
 
-		return $p;
+	private function p($value) {
+        $attrs = $this->attrs($value);
+
+        return $this->balise(__FUNCTION__, $value->_, $attrs);
 	}
 
 	private function a($value) {
-		$a = '<'.__FUNCTION__.' ';
-		if(isset($value->attr) && count($value->attr) > 0) {
-			foreach ($value->attr as $attr => $valeur) {
-				$a .= $attr."='";
-				if(gettype($valeur) === 'array') {
-					foreach ($valeur as $cle => $val) {
-						if (gettype($cle) === 'string') {
-							$a .= $cle.':'.$val.'; ';
-						} else {
-							$a .= $val.' ';
-						}
-					}
-				}
-				else {
-					$a .= $valeur;
-				}
-				$a .= "' ";
-			}
-		}
-		$a .= ">{$value->_}</".__FUNCTION__.'>';
+        $attrs = $this->attrs($value);
 
-		return $a;
+        return $this->balise(__FUNCTION__, $value->_, $attrs);
 	}
 
 	private function b($value) {
-		return '<'.__FUNCTION__.">{$value}</".__FUNCTION__.'>';
+        $attrs = $this->attrs($value);
+
+        return $this->balise(__FUNCTION__, $value->_, $attrs);
 	}
 
 	private function br($nbr) {
 		$brs = '';
 		for($i=0, $max=(int)$nbr; $i<$max; $i++) {
-			$brs .= "\n<br />";
+			$brs .= "\n{$this->balise(__FUNCTION__, '', '',true)}";
 		}
 		$brs .= "\n";
 		return $brs;
 	}
 
 	private function img($value) {
-		$attrs = '';
-		if(isset($value->attr) && count($value->attr) > 0) {
-			foreach ($value->attr as $attr => $valeur) {
-				$attrs .= $attr."='";
-				if(gettype($valeur) === 'array' || gettype($valeur) === 'object') {
-					$valeur = (gettype($valeur) === 'object') ? get_object_vars($valeur) : $valeur;
-					foreach ($valeur as $cle => $val) {
-						if (gettype($cle) === 'string') {
-							$attrs .= $cle.':'.$val.'; ';
-						} else {
-							$attrs .= $val.' ';
-						}
-					}
-				}
-				else {
-					$attrs .= $valeur;
-				}
-				$attrs .= "' ";
-			}
-		}
-		return $this->balise(__FUNCTION__, '', $attrs,true);
+	    $attrs = $this->attrs($value);
+
+	    return $this->balise(__FUNCTION__, $value->_, $attrs,true);
 	}
+
+	private function span($value) {
+        $attrs = $this->attrs($value);
+
+        return $this->balise(__FUNCTION__, $value->_, $attrs);
+    }
 
 }
