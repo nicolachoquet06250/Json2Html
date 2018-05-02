@@ -16,6 +16,10 @@ class Html extends Balised {
 		return (in_array($balise, get_class_methods(get_class($this)))) ? $balise : false;
 	}
 
+	/**
+	 * @param $string_or_array
+	 * @return string
+	 */
 	private function comment($string_or_array) {
 		$comment = "\n".'<!-- '."\n";
 		if(gettype($string_or_array) === 'array') {
@@ -31,10 +35,18 @@ class Html extends Balised {
 		return $comment;
 	}
 
+	/**
+	 * @param $type
+	 * @return string
+	 */
 	private function Doctype($type) {
 		return '<!'.__FUNCTION__." {$type->_}>";
 	}
 
+	/**
+	 * @param $array
+	 * @return string
+	 */
 	private function _html($array) {
 		$html = "\n<html>\n";
 		foreach ($array as $balise => $value) {
@@ -47,6 +59,10 @@ class Html extends Balised {
 		return $html;
 	}
 
+	/**
+	 * @param $array
+	 * @return string
+	 */
 	private function head($array) {
 		$head = "\n<head>\n";
 		$array = isset($array->_) ? get_object_vars($array->_) : $array;
@@ -60,6 +76,10 @@ class Html extends Balised {
 		return $head;
 	}
 
+	/**
+	 * @param $metas
+	 * @return string
+	 */
 	private function metas($metas) {
 		$metas_str = '';
 
@@ -79,6 +99,10 @@ class Html extends Balised {
 		return $metas_str;
 	}
 
+	/**
+	 * @param $links
+	 * @return string
+	 */
 	private function links($links) {
 		$links_str = '';
 
@@ -97,7 +121,11 @@ class Html extends Balised {
 		return $links_str;
 	}
 
-    private function scripts($links) {
+	/**
+	 * @param $links
+	 * @return string
+	 */
+	private function scripts($links) {
         $scripts_str = '';
 
         foreach ($links as $link) {
@@ -115,10 +143,18 @@ class Html extends Balised {
         return $scripts_str;
     }
 
+	/**
+	 * @param $title
+	 * @return string
+	 */
 	private function title($title) {
         return $this->balise(__FUNCTION__, $title->_)."\n";
 	}
 
+	/**
+	 * @param $object
+	 * @return string
+	 */
 	private function style($object) {
 		$style_str = "<style>\n";
 		foreach ($object as $selecteur => $style) {
@@ -132,6 +168,10 @@ class Html extends Balised {
 		return $style_str;
 	}
 
+	/**
+	 * @param $array
+	 * @return string
+	 */
 	private function body($array) {
 		$body = "\n<body>\n";
 		foreach ($array as $balise) {
@@ -146,6 +186,10 @@ class Html extends Balised {
 		return $body;
 	}
 
+	/**
+	 * @param $content
+	 * @return string
+	 */
 	private function div($content) {
 	    $parse_array = function($array, Html $self) {
 	        $str = '';
@@ -165,24 +209,40 @@ class Html extends Balised {
 	    return $div;
     }
 
+	/**
+	 * @param $value
+	 * @return string
+	 */
 	private function p($value) {
         $attrs = $this->attrs($value);
 
         return $this->balise(__FUNCTION__, $value->_, $attrs);
 	}
 
+	/**
+	 * @param $value
+	 * @return string
+	 */
 	private function a($value) {
         $attrs = $this->attrs($value);
 
         return $this->balise(__FUNCTION__, $value->_, $attrs);
 	}
 
+	/**
+	 * @param $value
+	 * @return string
+	 */
 	private function b($value) {
         $attrs = $this->attrs($value);
 
         return $this->balise(__FUNCTION__, $value->_, $attrs);
 	}
 
+	/**
+	 * @param $nbr
+	 * @return string
+	 */
 	private function br($nbr) {
 		$brs = '';
 		for($i=0, $max=(int)$nbr; $i<$max; $i++) {
@@ -192,12 +252,20 @@ class Html extends Balised {
 		return $brs;
 	}
 
+	/**
+	 * @param $value
+	 * @return string
+	 */
 	private function img($value) {
 	    $attrs = $this->attrs($value);
 
 	    return $this->balise(__FUNCTION__, $value->_, $attrs,true);
 	}
 
+	/**
+	 * @param $value
+	 * @return string
+	 */
 	private function span($value) {
         $attrs = $this->attrs($value);
 
