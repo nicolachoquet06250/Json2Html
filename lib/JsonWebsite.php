@@ -14,7 +14,7 @@ class JsonWebsite {
                 }
             }
 
-            exit("Génération du répository html `{$repo}` réussi !");
+            exit("Génération du répository html `{$repo}` réussi !\n");
         }
         catch (Exception $e) {
 	        exit($e->getMessage());
