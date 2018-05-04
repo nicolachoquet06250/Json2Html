@@ -15,7 +15,9 @@
               "charset": "utf-8"
             }
           ],
-          "title": {"_": "ma premiere page HTML en Json"},
+          "title": {
+            "_": "ma premiere page HTML en Json"
+          },
           "links": [
             {
               "type": "text/css",

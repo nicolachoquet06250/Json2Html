@@ -2,23 +2,32 @@
 
 class JsonWebsite {
 
-	public function __construct($repo) {
-	    try {
-            $dir = opendir($repo);
+	/**
+	 * JsonWebsite constructor.
+	 *
+	 * @param        $repo
+	 * @param string $redirect
+	 */
+	public function __construct($repo, $redirect = '') {
+		try {
+			$dir = opendir($repo);
 
-            while (($file = readdir($dir)) !== false) {
-                if ($file !== '.' && $file !== '..') {
-                    $file_name = explode('.', $file)[0];
-                    $converted = new JsonToHtml($file_name);
-                    $converted->write();
-                }
-            }
+			while (($file = readdir($dir)) !== false) {
+				if ($file !== '.' && $file !== '..') {
+					$file_name = explode('.', $file)[0];
+					$converted = new JsonToHtml($file_name);
+					$converted->write();
+				}
+			}
 
-            exit("Génération du répository html `{$repo}` réussi !\n");
-        }
-        catch (Exception $e) {
-	        exit($e->getMessage());
-        }
+			$rall = is_cli() ? "\n" : "\n<br />\n";
+			echo "Génération du répository html `{$repo}` réussi !{$rall}";
+			if (!is_cli() && $redirect) {
+				echo '<script>window.location.href = "'.$redirect.'"</script>';
+			}
+		} catch (Exception $e) {
+			exit($e->getMessage());
+		}
 	}
 
 }

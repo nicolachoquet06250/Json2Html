@@ -2,7 +2,7 @@
 
 require 'lib/autoload.php';
 
-new JsonWebsite('json_site');
+new JsonWebsite('json_site', 'www/doc.html');
 
 
 // aller voir les pages :

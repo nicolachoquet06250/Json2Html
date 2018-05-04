@@ -101,7 +101,7 @@
           "content": {
             "_": [
               {
-               "name":  "p",
+                "name": "p",
                 "content": {
                   "attr": {
                     "class": "toto"

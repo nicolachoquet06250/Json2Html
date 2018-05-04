@@ -5,7 +5,7 @@ class JsonFile {
 
 	public function __construct($path) {
 		$this->path_file = 'json_site/'.$path.'.json';
-		$this->content = file_exists($this->path_file)
+		$this->content   = file_exists($this->path_file)
 			? file_get_contents($this->path_file) : '';
 	}
 
